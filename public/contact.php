@@ -9,7 +9,7 @@
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">Contact Us</h2>
                     <h3 class="section-subheading ">
-                        <?php display_message(); ?>
+
                     </h3>
                 </div>
             </div>
@@ -17,7 +17,7 @@
                 <div class="col-lg-12">
                     <form name="sentMessage" id="contactForm" method="post" >
 
-                        <?php send_message(); ?>
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">

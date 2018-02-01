@@ -26,7 +26,7 @@
         <!-- Page Features -->
         <div class="row text-center">
 
-         <?php get_products_in_cat_page(); ?>
+
 
 
         </div>
