@@ -24,10 +24,11 @@
                 </div>
 
                 <div class="row">
+                    <?php
+                    echo getProducts();
+                    ?>
 
-
-
-                </div><!-- ROw ends here-->
+                </div><!-- Row ends here-->
 
             </div>
 
