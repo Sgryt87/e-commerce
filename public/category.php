@@ -25,10 +25,7 @@
 
         <!-- Page Features -->
         <div class="row text-center">
-
-
-
-
+            <?php getProductsInCategoryPage();?>
         </div>
         <!-- /.row -->
 

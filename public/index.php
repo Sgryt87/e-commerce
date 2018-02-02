@@ -8,7 +8,7 @@
 
         <div class="row">
 
-          <?php include(TEMPLATE_FRONT . DS . "side_nav.php") ?>
+            <?php include(TEMPLATE_FRONT . DS . "side_nav.php") ?>
 
 
             <div class="col-md-9">
@@ -17,17 +17,14 @@
 
                     <div class="col-md-12">
 
-                      <?php include(TEMPLATE_FRONT . DS . "slider.php") ?>
-                        
+                        <?php include(TEMPLATE_FRONT . DS . "slider.php") ?>
+
                     </div>
 
                 </div>
 
                 <div class="row">
-                    <?php
-                    echo getProducts();
-                    ?>
-
+                    <?php getProducts(); ?>
                 </div><!-- Row ends here-->
 
             </div>
