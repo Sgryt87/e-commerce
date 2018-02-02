@@ -103,7 +103,7 @@ function getProductsInCategoryPage()
                     <div class="caption">
                         <h3>{$product_title}</h3>
                         <p>{$product_description}</p>
-                        <p><a href="#" class="btn btn-primary">Buy Now!</a><a href="item.php?id={$product_id}" 
+                        <p><a href="#" class="btn btn-primary">Buy Now!</a> <a href="item.php?id={$product_id}" 
                         class="btn 
                         btn-default">More 
                         Info</a></p>
@@ -137,16 +137,52 @@ function getProductsInShopPage()
                     <div class="caption">
                         <h3>{$product_title}</h3>
                         <p>{$product_description}</p>
-                        <p><a href="#" class="btn btn-primary">Buy Now!</a><a href="item.php?id={$product_id}" 
-                        class="btn 
-                        btn-default">More 
-                        Info</a></p>
+                        <p><a href="#" class="btn btn-primary">Buy Now!</a> <a href="item.php?id={$product_id}" 
+                        class="btn btn-default">More Info</a></p>
                     </div>
                 </div>
             </div>
 DELIMETER;
         echo $products;
     endwhile;
+}
+
+
+function loginUser()
+{
+    if (isset($_POST['login'])) {
+        $username = cleanData($_POST['username']);
+        $user_password = cleanData($_POST['user_password']);
+
+        $query = query("SELECT * FROM users where username = '{$username}");
+        confirmQuery($query);
+        while ($row = fetchQuery($query)) {
+            $db_user_id = $row['user_id'];
+            $db_username = $row['username'];
+            $db_user_password = $row['user_password'];
+            $db_user_firstname = $row['user_firstname'];
+            $db_user_lastname = $row['user_lastname'];
+            $db_user_email = $row['user_email'];
+            $db_user_image = $row['user_image'];
+            $db_user_role = $row['user_role'];
+        }
+
+
+    }
+}
+
+function isNameExists($username)
+{
+    $query = query("SELECT username FROM users WHERE username = '{$username}'");
+    confirmQuery($query);
+    return (mysqli_num_rows($query) > 0 ? true : false);
+}
+
+function isEmailExists($email)
+{
+    $query = query("SELECT user_email FROM users WHERE user_email = '{$email}'");
+    confirmQuery($query);
+    return (mysqli_num_rows($query) > 0 ? true : false);
 }
 
 //BACK

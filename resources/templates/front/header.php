@@ -1,3 +1,5 @@
+<?php
+$_SESSION['some'] = '123';?>
 <!DOCTYPE html>
 <html lang="en">
 

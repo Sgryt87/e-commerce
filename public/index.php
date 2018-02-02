@@ -24,7 +24,10 @@
                 </div>
 
                 <div class="row">
-                    <?php getProducts(); ?>
+
+                    <?php
+                    echo $_SESSION['username'];
+                    getProducts(); ?>
                 </div><!-- Row ends here-->
 
             </div>
