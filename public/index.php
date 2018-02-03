@@ -26,7 +26,6 @@
                 <div class="row">
 
                     <?php
-                    echo $_SESSION['username'];
                     getProducts(); ?>
                 </div><!-- Row ends here-->
 

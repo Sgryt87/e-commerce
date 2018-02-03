@@ -25,10 +25,28 @@
                 <a href="registration.php">Registration</a>
             </li>
             <li>
+                <a href="admin">Admin</a>
+            </li>
+            <?php
+            if (isset($_SESSION['user_role'])) {
+                $displayName = <<<WELCOME
+                
+            <li><a href="">Welcome, {$_SESSION['user_firstname']}</a></li>
+WELCOME;
+                echo $displayName;
+            } else {
+                $displayLogin = <<<LOGIN
+                
+            <li>
                 <a href="login.php">Login</a>
             </li>
+LOGIN;
+                echo $displayLogin;
+            }
+            ?>
+
             <li>
-                <a href="admin">Admin</a>
+                <a href="logout.php">Logout</a>
             </li>
         </ul>
 
