@@ -25,9 +25,9 @@ function cleanData($data)
     return mysqli_escape_string($connection, trim(htmlentities($data)));
 }
 
-function redirect($link)
+function redirect($location)
 {
-    header("Location: $link");
+    header("Location: $location");
 }
 
 //FRONT
@@ -147,30 +147,6 @@ DELIMETER;
     endwhile;
 }
 
-
-function loginUser()
-{
-    if (isset($_POST['login'])) {
-        $username = cleanData($_POST['username']);
-        $user_password = cleanData($_POST['user_password']);
-
-        $query = query("SELECT * FROM users where username = '{$username}");
-        confirmQuery($query);
-        while ($row = fetchQuery($query)) {
-            $db_user_id = $row['user_id'];
-            $db_username = $row['username'];
-            $db_user_password = $row['user_password'];
-            $db_user_firstname = $row['user_firstname'];
-            $db_user_lastname = $row['user_lastname'];
-            $db_user_email = $row['user_email'];
-            $db_user_image = $row['user_image'];
-            $db_user_role = $row['user_role'];
-        }
-
-
-    }
-}
-
 function isNameExists($username)
 {
     $query = query("SELECT username FROM users WHERE username = '{$username}'");
@@ -186,3 +162,20 @@ function isEmailExists($email)
 }
 
 //BACK
+
+function setMessage($message)
+{
+    if (!empty($message)) {
+        $_SESSION['message'] = $message;
+    } else {
+        $message = '';
+    }
+}
+
+function displayMessage()
+{
+    if (isset($_SESSION['message'])) {
+        echo $_SESSION['message'];
+        unset($_SESSION['message']);
+    }
+}

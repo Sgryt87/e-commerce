@@ -22,7 +22,7 @@ if (isset($_POST['login'])) {
         $_SESSION['user_lastname'] = $db_user_lastname;
         $_SESSION['user_role'] = $db_user_role;
 
-        if($_SESSION['user_role'] = 'admin') {
+        if($_SESSION['user_role'] === 'admin') {
             redirect('admin');
         } else {
             redirect('index.php');
@@ -38,19 +38,21 @@ if (isset($_POST['login'])) {
         <header>
             <h1 class="text-center">Login</h1>
             <h2 class="text-center bg-warning"></h2>
-            <div class="col-sm-4 col-sm-offset-5">
+            <div class="col-sm-6 col-sm-offset-3">
                 <form class="" action="" method="post" enctype="multipart/form-data">
 
                     <?php //echo $logged; ?>
-                    <div class="form-group"><label for="username">
-                            Username<input type="text" name="username" class="form-control"></label>
+                    <div class="form-group">
+                        <label for="username">
+                            Username</label><input type="text" name="username" class="form-control">
                     </div>
-                    <div class="form-group"><label for="password">
-                            Password<input type="password" name="user_password" class="form-control"></label>
+                    <div class="form-group">
+                        <label for="password">
+                            Password</label><input type="password" name="user_password" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <input type="submit" name="login" class="btn btn-primary">
+                        <input type="submit" name="login" value="Login" class="btn btn-primary form-control">
                     </div>
                 </form>
             </div>

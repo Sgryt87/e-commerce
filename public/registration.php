@@ -2,7 +2,7 @@
 require_once("../resources/config.php");
 include(TEMPLATE_FRONT . DS . "header.php");
 
-$message = '';
+//$message = '';
 $messageErr = '';
 $usernameErr = '';
 $emailErr = '';
@@ -87,12 +87,6 @@ if (isset($_POST['submit'])) {
         $confirm_passwordErr === '') {
 
 
-        echo $username . "<br>";
-        echo $user_email . "<br>";
-        echo $user_firstname . "<br>";
-        echo $user_lastname . "<br>";
-        echo $user_password . "<br>";
-
         $user_password = password_hash($user_password, PASSWORD_BCRYPT, array('cost' > 12));
         $query = query("INSERT INTO users 
                                     (username,
@@ -110,7 +104,7 @@ if (isset($_POST['submit'])) {
                                     'subscriber'
                                     )");
         confirmQuery($query);
-        $message = 'Congratulations, You Have Been Registered!';
+        setMessage('Congratulations, You Have Been Registered!');
     } else {
         $messageErr = 'Something Went Wrong...';
     }
@@ -126,11 +120,12 @@ if (isset($_POST['submit'])) {
                 <div class="col-xs-6 col-xs-offset-3">
                     <div class="form-wrap">
                         <h1>Registration</h1>
+                        <h6 class="text-info">* - required fields</h6>
                         <br>
-                        <h5 class="text-center text-success center-block"><?php echo $message; ?></h5>
+                        <h5 class="text-center text-success bg-success center-block"><?php displayMessage();?></h5>
                         <form role="form" action="registration.php" method="post" id="login-form" autocomplete="off">
                             <div class="form-group">
-                                <h6 class="text-info">*Username</h6>
+                                <h6 class="text-info">*Username (Your Username Must Contain At Least 3 Characters)</h6>
                                 <label for="username" class="sr-only">Username</label>
                                 <input type="text" name="username" id="username" class="form-control"
                                        placeholder="Please Enter Your Username">
@@ -158,7 +153,8 @@ if (isset($_POST['submit'])) {
                                 <h5 class="text-center text-danger"><?php echo $lastNameErr;; ?></h5>
                             </div>
                             <div class="form-group">
-                                <h6 class="text-info">*Password (Your Password Must Contain At Least 8 Characters And One
+                                <h6 class="text-info">*Password  (Password Must Contain At Least 8 Characters, One Capital Letter And
+                                    One
                                     Number)</h6>
                                 <label for="user_password" class="sr-only">Password</label>
                                 <input type="password" name="user_password" id="key" class="form-control"
