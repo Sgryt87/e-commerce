@@ -167,8 +167,6 @@ function setMessage($message)
 {
     if (!empty($message)) {
         $_SESSION['message'] = $message;
-    } else {
-        $message = '';
     }
 }
 

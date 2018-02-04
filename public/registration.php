@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
 //username
     if (empty($username)) {
         $usernameErr = "Username Is Required";
-    } else if (strlen($username) <= 2) {
+    } else if (strlen($username) < 2) {
         $usernameErr = "Your Username Must Contain At Least 2 Characters";
     } else {
         if (isNameExists($username)) {
@@ -105,8 +105,6 @@ if (isset($_POST['submit'])) {
                                     )");
         confirmQuery($query);
         setMessage('Congratulations, You Have Been Registered!');
-    } else {
-        $messageErr = 'Something Went Wrong...';
     }
 } // end if
 
@@ -122,7 +120,7 @@ if (isset($_POST['submit'])) {
                         <h1>Registration</h1>
                         <h6 class="text-info">* - required fields</h6>
                         <br>
-                        <h5 class="text-center text-success bg-success center-block"><?php displayMessage();?></h5>
+                        <h5 class="text-center text-success bg-success center-block"><?php displayMessage(); ?></h5>
                         <form role="form" action="registration.php" method="post" id="login-form" autocomplete="off">
                             <div class="form-group">
                                 <h6 class="text-info">*Username (Your Username Must Contain At Least 3 Characters)</h6>
@@ -153,7 +151,8 @@ if (isset($_POST['submit'])) {
                                 <h5 class="text-center text-danger"><?php echo $lastNameErr;; ?></h5>
                             </div>
                             <div class="form-group">
-                                <h6 class="text-info">*Password  (Password Must Contain At Least 8 Characters, One Capital Letter And
+                                <h6 class="text-info">*Password (Password Must Contain At Least 8 Characters, One
+                                    Capital Letter And
                                     One
                                     Number)</h6>
                                 <label for="user_password" class="sr-only">Password</label>
