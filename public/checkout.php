@@ -1,8 +1,8 @@
 <?php
 require_once("../resources/config.php");
 include(TEMPLATE_FRONT . DS . "header.php");
-
-echo $_SESSION['product_1'];
+include 'cart.php';
+unset($_SESSION['some']);  // -- WHERE IS IT FROM ??? ..
 ?>
 
 
@@ -13,7 +13,7 @@ echo $_SESSION['product_1'];
     <!-- /.row -->
 
     <div class="row">
-        <h4 class="text-center bg-danger"><?php displayMessage(); ?></h4>
+        <!--        <h4 class="text-center bg-danger">--><?php //displayMessage(); ?><!--</h4>-->
         <h1>Checkout</h1>
 
         <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
@@ -32,9 +32,18 @@ echo $_SESSION['product_1'];
                 </thead>
                 <tbody>
 
-                    <?php include 'cart.php';
-                    cart();?>
-                </tr>
+                <?php
+                //                echo  $_SESSION['product_1'] . "<br>";
+                //                echo  $_SESSION['product_2']. "<br>";
+
+                foreach ($_SESSION as $name => $value) {
+                    echo $name . '=>' . $value . "<br>";
+                }
+
+                cart();
+
+                ?>
+
                 </tbody>
             </table>
 
@@ -47,7 +56,7 @@ echo $_SESSION['product_1'];
             <h2>Cart Totals</h2>
 
             <table class="table table-bordered" cellspacing="0">
-                <tbody
+                <tbody>
                 <tr class="cart-subtotal">
                     <th>Items:</th>
                     <td><span class="amount"></span></td>
