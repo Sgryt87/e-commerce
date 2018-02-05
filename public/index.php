@@ -26,7 +26,10 @@
                 <div class="row">
 
                     <?php
-                    getProducts(); ?>
+
+                    getProducts();
+
+                    ?>
                 </div><!-- Row ends here-->
 
             </div>

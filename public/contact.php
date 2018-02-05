@@ -54,7 +54,7 @@ if (isset($_POST['send'])) {
             setMessage('Email was sent successfully');
         } else {
             setMessage('Something Went Wrong, Email Wasn\'t Sent...');
-            redirect('contact.php'); 
+            redirect('contact.php');
         }
     }
 }

@@ -54,7 +54,7 @@ function getProducts()
                     <h4 class="pull-right">&#36;{$product_price}</h4>
                     <h4><a href="item.php?id={$product_id}">{$product_title}</a></h4>
                     <p>{$product_description}<a href="" target="_blank"></a></p>
-                    <a href="item.php?id={$product_id}" class="btn btn-primary" target="_blank">Add To Cart</a>
+                    <a href="cart.php?add={$product_id}" class="btn btn-primary" target="_blank">Add To Cart</a>
                 </div>
             </div>
         </div>

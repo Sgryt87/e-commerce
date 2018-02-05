@@ -6,7 +6,7 @@
 
 </h1>
 
-<h4 class= "bg-success"><?php display_message(); ?></h4>
+<h4 class= "bg-success"><?php  ?></h4>
 </div>
 
 <div class="row">
