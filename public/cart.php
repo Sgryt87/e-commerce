@@ -24,6 +24,8 @@ if (isset($_GET['remove'])) { // if below 0??
         $_SESSION["product_" . $_GET['remove']]--;
         redirect('checkout.php');
         if ($_SESSION["product_" . $_GET['remove']] < 1) {
+            unset($_SESSION['item_total']);
+            unset($_SESSION['item_quantity']);
             redirect('checkout.php');
         }
     } else {
@@ -33,11 +35,16 @@ if (isset($_GET['remove'])) { // if below 0??
 
 if (isset($_GET['delete'])) {
     $_SESSION["product_" . $_GET['delete']] = 0;
+    unset($_SESSION['item_total']);
+    unset($_SESSION['item_quantity']);
     redirect('checkout.php');
 }
 
 function cart()
 {
+    $total = 0;
+    $item_quantity = 0;
+
     foreach ($_SESSION as $name => $value) {
         if ($value > 0) {
             if (substr($name, 0, 8) === 'product_') {
@@ -55,13 +62,15 @@ function cart()
                     $product_category_id = $row['product_category_id'];
                     $product_description = $row['product_description'];
                     $product_image = $row['product_image'];
-                    $subtotal = $_SESSION["product_" . $id] * $product_price;
+                    $subtotal = $value * $product_price;
+                    $item_quantity += $value;
                     $products = <<<PRODUCTS
         
                   <tr>
                     <td>{$product_title}</td>
                     <td>{$product_price}</td>
                     <td>{$product_quantity}</td>
+                    <td>{$value}</td>
                     <td><span class="amount">&#36;</span>{$subtotal}</td>
                     <td class="text-center">
                         <a href="cart.php?remove={$product_id}" class="btn btn-warning btn-sm">-</a>
@@ -74,6 +83,8 @@ PRODUCTS;
 
                     echo $products;
                 }
+                $_SESSION['item_total'] = $total += $subtotal;
+                $_SESSION['item_quantity'] = $item_quantity;
             }
         }
     }

@@ -25,7 +25,8 @@ unset($_SESSION['some']);  // -- WHERE IS IT FROM ??? ..
                 <tr>
                     <th>Product</th>
                     <th>Price</th>
-                    <th>Quantity</th>
+                    <th>Availalbe</th>
+                    <th>Cart</th>
                     <th>Sub-total</th>
                     <th></th>
                 </tr>
@@ -33,12 +34,6 @@ unset($_SESSION['some']);  // -- WHERE IS IT FROM ??? ..
                 <tbody>
 
                 <?php
-                //                echo  $_SESSION['product_1'] . "<br>";
-                //                echo  $_SESSION['product_2']. "<br>";
-
-                foreach ($_SESSION as $name => $value) {
-                    echo $name . '=>' . $value . "<br>";
-                }
 
                 cart();
 
@@ -59,7 +54,11 @@ unset($_SESSION['some']);  // -- WHERE IS IT FROM ??? ..
                 <tbody>
                 <tr class="cart-subtotal">
                     <th>Items:</th>
-                    <td><span class="amount"></span></td>
+                    <td><span class="amount">
+                            <?php
+                            echo isset($_SESSION['item_quantity']) ? $_SESSION['item_quantity'] : "0";
+                            ?>
+                        </span></td>
                 </tr>
                 <tr class="shipping">
                     <th>Shipping and Handling</th>
@@ -68,7 +67,11 @@ unset($_SESSION['some']);  // -- WHERE IS IT FROM ??? ..
 
                 <tr class="order-total">
                     <th>Order Total</th>
-                    <td><strong><span class="amount">&#36;</span></strong></td>
+                    <td><strong><span class="amount">&#36;
+                                <?php
+                                echo isset($_SESSION['item_total']) ? $_SESSION['item_total'] : "0.00";
+                                ?>
+                            </span></strong></td>
                 </tr>
                 </tbody>
 
