@@ -44,7 +44,10 @@ function cart()
 {
     $total = 0;
     $item_quantity = 0;
-
+    $item_name = 1;
+    $item_number = 1;
+    $amount = 1;
+    $quantity = 1;
     foreach ($_SESSION as $name => $value) {
         if ($value > 0) {
             if (substr($name, 0, 8) === 'product_') {
@@ -77,17 +80,46 @@ function cart()
                         <a href="cart.php?add={$product_id}" class="btn btn-success btn-sm">+</a>
                         <a href="cart.php?delete={$product_id}" class="btn btn-danger btn-sm">X</a>
                     </td>
-                  </tr>
+                  </tr>                             
+                                <input type="hidden" name="item_name_{$item_name}" value="{$product_title}">
+                                <input type="hidden" name="item_number_{$item_number}" value="{$product_id}">
+                                <input type="hidden" name="amount_{$amount}" value="{$product_price}">
+                                <input type="hidden" name="quantity_{$quantity}" value="{$value}">
+ 
 
 PRODUCTS;
 
                     echo $products;
                 }
+                //product in the cart
                 $_SESSION['item_total'] = $total += $subtotal;
                 $_SESSION['item_quantity'] = $item_quantity;
+                //paypal
+                $item_name++;
+                $item_number++;
+                $amount++;
+                $quantity++;
             }
         }
     }
 
+}
+
+function show_paypal()
+{
+    if (isset($_SESSION['item_quantity'])) {
+
+
+        $paypalBtn = <<<BUTTON
+
+       <input type="image" name="upload"
+                   src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
+                   alt="PayPal - The safer, easier way to pay online">
+BUTTON;
+        echo $paypalBtn;
+
+    } else {
+        echo '<h3 class="">Your shopping cart is empty</h3>';
+    }
 }
 

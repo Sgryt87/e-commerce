@@ -22,7 +22,7 @@ function confirmQuery($conn)
 function cleanData($data)
 {
     global $connection;
-    return mysqli_escape_string($connection, trim(htmlentities($data)));
+    return mysqli_real_escape_string($connection, trim(htmlentities($data)));
 }
 
 function redirect($location)
