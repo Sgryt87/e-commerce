@@ -67,8 +67,8 @@
 
                                     <form action="">
                                         <div class="form-group">
-                                            <a href="../resources/cart.php?add=?>"
-                                               class="btn btn-primary">ADD</a>
+                                            <a href="../resources/cart.php?add=<?php echo $product_id ?>"
+                                               class="btn btn-primary">Add</a>
                                         </div>
                                     </form>
 

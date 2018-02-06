@@ -1,5 +1,5 @@
 <?php
-require_once '../resources/config.php';
+require_once 'config.php';
 if (isset($_GET['add'])) {
     $get_id = cleanData($_GET['add']);
     $query = query("SELECT * FROM products WHERE product_id = $get_id");
@@ -9,11 +9,11 @@ if (isset($_GET['add'])) {
         $product_quantity = $row['product_quantity'];
         if ($product_quantity > ($_SESSION["product_" . $_GET['add']])) {
             $_SESSION["product_" . $_GET['add']] += 1;
-            redirect('checkout.php');
+            redirect('../public/checkout.php');
         } else {
 //            setMessage("We are sorry for the inconvenience, but there are only " . $product_quantity . " " .
 //                $product_name . "(s) available at this moment.");
-            redirect('checkout.php');
+            redirect('../public/checkout.php');
         }
     }
 }
@@ -22,14 +22,14 @@ if (isset($_GET['add'])) {
 if (isset($_GET['remove'])) { // if below 0??
     if ($_SESSION["product_" . $_GET['remove']] > 0) {
         $_SESSION["product_" . $_GET['remove']]--;
-        redirect('checkout.php');
+        redirect('../public/checkout.php');
         if ($_SESSION["product_" . $_GET['remove']] < 1) {
             unset($_SESSION['item_total']);
             unset($_SESSION['item_quantity']);
-            redirect('checkout.php');
+            redirect('../public/checkout.php');
         }
     } else {
-        redirect('checkout.php');
+        redirect('../public/checkout.php');
     }
 }
 
@@ -37,7 +37,7 @@ if (isset($_GET['delete'])) {
     $_SESSION["product_" . $_GET['delete']] = 0;
     unset($_SESSION['item_total']);
     unset($_SESSION['item_quantity']);
-    redirect('checkout.php');
+    redirect('../public/checkout.php');
 }
 
 function cart()
@@ -76,9 +76,9 @@ function cart()
                     <td>{$value}</td>
                     <td><span class="amount">&#36;</span>{$subtotal}</td>
                     <td class="text-center">
-                        <a href="cart.php?remove={$product_id}" class="btn btn-warning btn-sm">-</a>
-                        <a href="cart.php?add={$product_id}" class="btn btn-success btn-sm">+</a>
-                        <a href="cart.php?delete={$product_id}" class="btn btn-danger btn-sm">X</a>
+                        <a href="../resources/cart.php?remove={$product_id}" class="btn btn-warning btn-sm">-</a>
+                        <a href="../resources/cart.php?add={$product_id}" class="btn btn-success btn-sm">+</a>
+                        <a href="../resources/cart.php?delete={$product_id}" class="btn btn-danger btn-sm">X</a>
                     </td>
                   </tr>                             
                                 <input type="hidden" name="item_name_{$item_name}" value="{$product_title}">
@@ -107,7 +107,7 @@ PRODUCTS;
 
 function show_paypal()
 {
-    if (isset($_SESSION['item_quantity'])) {
+    if (isset($_SESSION['item_quantity']) && $_SESSION['item_quantity'] > 0) {
 
 
         $paypalBtn = <<<BUTTON
@@ -120,6 +120,29 @@ BUTTON;
 
     } else {
         echo '<h3 class="">Your shopping cart is empty</h3>';
+    }
+}
+
+function paymentProcess()
+{
+    if (isset($_GET['tx'])) {
+        $amount = cleanData($_GET['amt']);
+        $currency = cleanData($_GET['cc']);
+        $transaction = cleanData($_GET['tx']);
+        $status = cleanData($_GET['st']);
+
+        $query = query("INSERT INTO orders(
+                                            order_amount,
+                                            order_transaction,
+                                            order_status,
+                                            order_currency) VALUES
+                                            ($amount,
+                                            '$transaction',
+                                            '$status',
+                                            '$currency')");
+        confirmQuery($query);
+    } else {
+        redirect('index.php');
     }
 }
 

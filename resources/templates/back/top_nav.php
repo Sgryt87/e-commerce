@@ -13,8 +13,11 @@
 <!-- Top Menu Items -->
 <ul class="nav navbar-right top-nav">
   <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
-
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <?php if(isset($_SESSION['user_role'])) {
+                echo "Welcome, " . $_SESSION['user_firstname'] . " | ";
+            }   ?>
+            <i class="fa fa-user"></i>
             <b class="caret"></b></a>
         <ul class="dropdown-menu">
            

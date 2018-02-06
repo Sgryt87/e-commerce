@@ -8,7 +8,7 @@
             <a href="index.php?orders"><i class="fa fa-fw fa-dashboard"></i>Orders</a>
         </li>
 
-         <li class="">
+         <li>
             <a href="index.php?reports"><i class="fa fa-fw fa-dashboard"></i>Reports</a>
         </li>
         <li>

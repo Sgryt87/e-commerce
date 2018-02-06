@@ -1,7 +1,6 @@
 <?php
 require_once("../resources/config.php");
 include(TEMPLATE_FRONT . DS . "header.php");
-include 'cart.php';
 unset($_SESSION['some']);  // -- WHERE IS IT FROM ??? ..
 ?>
 
@@ -79,20 +78,6 @@ unset($_SESSION['some']);  // -- WHERE IS IT FROM ??? ..
             </table>
 
         </div><!-- CART TOTALS-->
-
-        <form action="https://www.developer.paypal.com/cgi-bin/webscr" method="post">
-
-            <!--            <input type="hidden" name="address1" value="9 Elm Street">-->
-            <!--            <input type="hidden" name="address2" value="Apt 5">-->
-            <!--            <input type="hidden" name="city" value="Berwyn">-->
-            <!--            <input type="hidden" name="state" value="PA">-->
-            <!--            <input type="hidden" name="zip" value="19312">-->
-            <!--            <input type="hidden" name="night_phone_a" value="610">-->
-            <!--            <input type="hidden" name="night_phone_b" value="555">-->
-            <!--            <input type="hidden" name="night_phone_c" value="1234">-->
-            <input type="hidden" name="email" value="sergiigrytsaienko-buyer@gmail.com">
-
-        </form>
 
 
     </div><!--Main Content-->

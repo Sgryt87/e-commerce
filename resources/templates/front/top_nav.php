@@ -48,6 +48,15 @@ LOGIN;
             <li>
                 <a href="logout.php">Logout</a>
             </li>
+            <li>
+                <a href="checkout.php"><i class="fa fa-fw fa-shopping-cart"></i><?php if (isset($_SESSION['item_quantity'])) {
+                        echo ' ' . $_SESSION['item_quantity'];
+                    } else {
+                        echo '';
+                    }
+                    ?>
+                </a>
+            </li>
         </ul>
 
 
