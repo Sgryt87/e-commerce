@@ -68,7 +68,7 @@ function cart()
                     $subtotal = $value * $product_price;
                     $item_quantity += $value;
                     $products = <<<PRODUCTS
-        
+                    
                   <tr>
                     <td>{$product_title}</td>
                     <td>{$product_price}</td>
@@ -85,10 +85,7 @@ function cart()
                                 <input type="hidden" name="item_number_{$item_number}" value="{$product_id}">
                                 <input type="hidden" name="amount_{$amount}" value="{$product_price}">
                                 <input type="hidden" name="quantity_{$quantity}" value="{$value}">
- 
-
 PRODUCTS;
-
                     echo $products;
                 }
                 //product in the cart
@@ -123,7 +120,8 @@ BUTTON;
     }
 }
 
-function paymentProcess()
+
+function reports()
 {
     if (isset($_GET['tx'])) {
         $amount = cleanData($_GET['amt']);
@@ -131,18 +129,66 @@ function paymentProcess()
         $transaction = cleanData($_GET['tx']);
         $status = cleanData($_GET['st']);
 
-        $query = query("INSERT INTO orders(
+        $total = 0;
+        $item_quantity = 0;
+
+        foreach ($_SESSION as $name => $value) {
+            if ($value > 0) {
+                if (substr($name, 0, 8) === 'product_') {
+                    $get_name = cleanData($name);
+                    $get_value = cleanData($value);
+                    $length = strlen($name) - 8;
+                    $id = substr($name, 8, $length);
+                    $show_query = query("SELECT * FROM products WHERE product_id = $id");
+                    confirmQuery($show_query);
+                    while ($row = fetchQuery($show_query)) {
+
+                        $product_price = $row['product_price'];
+                        $product_title = $row['product_title'];
+                        $subtotal = $value * $product_price;
+                        $item_quantity += $value;
+
+                        $id = cleanData($id);
+                        $subtotal = cleanData($subtotal);
+                        $value = cleanData($value);
+
+                        //inserting transaction information
+                        $get_query = query("INSERT INTO orders(
                                             order_amount,
                                             order_transaction,
                                             order_status,
-                                            order_currency) VALUES
+                                            order_currency) VALUES 
                                             ($amount,
                                             '$transaction',
                                             '$status',
                                             '$currency')");
-        confirmQuery($query);
+
+                        $last_id = cleanData(lastId());
+
+                        confirmQuery($get_query);
+                        //inserting reports details
+                        $insert_query = query("INSERT INTO reports(
+                                            product_id,
+                                            order_id,
+                                            product_title,
+                                            product_price,
+                                            product_quantity
+                                            ) VALUES
+                                            ($id,
+                                            $last_id,
+                                            '$product_title',
+                                            $subtotal,
+                                            $value)");
+                        confirmQuery($insert_query);
+
+                    }
+                    //product in the cart
+                    $total += $subtotal;
+                }
+            }
+        }
     } else {
         redirect('index.php');
     }
-}
 
+}

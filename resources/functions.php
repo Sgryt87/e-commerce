@@ -1,5 +1,11 @@
 <?php
 
+function lastId()
+{
+    global $connection;
+    return mysqli_insert_id($connection);
+}
+
 function query($sql)
 {
     global $connection;
@@ -256,6 +262,36 @@ PRODUCTS;
         echo $products;
     }
 }
+
+function displayReportsAdmin()
+{
+    $query = query("SELECT * FROM reports");
+    confirmQuery($query);
+    while ($row = fetchQuery($query)) {
+        $report_id = $row['report_id'];
+        $product_id = $row['product_id'];
+        $order_id = $row['order_id'];
+        $product_price = $row['product_price'];
+        $product_title = $row['product_title'];
+        $product_quantity = $row['product_quantity'];
+
+        $reports = <<<REPORTS
+
+           <tr> 
+           <th>$report_id</th>
+           <th>$product_id</th>
+           <th>$order_id</th>
+           <th>$product_price</th>
+           <th>$product_title</th>
+           <th>$product_quantity</th>
+           </tr>
+
+REPORTS;
+        echo $reports;
+
+    }
+}
+
 
 function deleteProductsAdmin()
 {
