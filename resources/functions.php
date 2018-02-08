@@ -41,7 +41,7 @@ function redirect($location)
 
 function getProducts()
 {
-    $query = query("SELECT * FROM products");
+    $query = query("SELECT * FROM products WHERE product_quantity > 0");
     confirmQuery($query);
     while ($row = fetchQuery($query)) {
         $product_id = $row['product_id'];
@@ -182,6 +182,8 @@ function displayMessage()
     }
 }
 
+//ORDERS
+
 function displayOrders()
 {
     deleteOrdersAdmin();
@@ -224,6 +226,7 @@ function deleteOrdersAdmin()
     }
 }
 
+//REPORTS
 
 function displayReportsAdmin()
 {
@@ -271,6 +274,8 @@ function deleteReportsAdmin()
         redirect('index.php?reports');
     }
 }
+
+//PRODUCTS
 
 function displayProductsAdmin()
 {
@@ -433,6 +438,8 @@ DELIMITER;
     }
 }
 
+//CATEGORIES
+
 function displayCategoriesAdmin()
 {
     $query = query("SELECT * FROM categories");
@@ -513,5 +520,46 @@ function deleteCategory()
         confirmQuery($query);
         setMessage('Category Was Deleted');
         redirect('index.php?categories');
+    }
+}
+
+//USERS
+
+function displayUsersAdmin()
+{
+    $query = query("SELECT * FROM users");
+    confirmQuery($query);
+    while ($row = fetchQuery($query)) {
+        $user_id = $row['user_id'];
+        $username = $row['username'];
+        $user_email = $row['user_email'];
+        $users = <<<USERS
+     
+        <tr>
+        <td>{$user_id}</td>
+        <td>{$username}</td>
+        <td>{$user_email}</td>
+        <td> <a href="index.php?edit_user&id={$user_id}" class="btn btn-primary">Edit</a></td>
+        <td>
+        <form action="" method="post">
+            <input type="hidden" name="user_id" value="$user_id">
+            <input type="submit" value="Delete" name="delete" class="btn btn-danger btn-sm">
+        </form>
+        </td>
+        </tr>
+USERS;
+
+        echo $users;
+    }
+}
+
+function deleteUserAdmin()
+{
+    if (isset($_POST['delete'])) {
+       echo $user_id = cleanData($_POST['user_id']);
+        $query = query("DELETE FROM users WHERE user_id = $user_id");
+        confirmQuery($query);
+        setMessage('User Was Deleted');
+        redirect('index.php?users');
     }
 }
