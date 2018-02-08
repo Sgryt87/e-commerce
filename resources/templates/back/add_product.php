@@ -1,3 +1,4 @@
+<?php addProductAdmin(); ?>
 <div class="col-md-12">
 
     <div class="row">
@@ -5,7 +6,7 @@
             Add Product
         </h1>
     </div>
-
+    <h3 class="text-success"><?php displayMessage(); ?></h3>
 
     <form action="" method="post" enctype="multipart/form-data">
 
@@ -46,7 +47,8 @@
                 <label for="product-title">Product Category</label>
 
                 <select name="product_category_id" id="" class="form-control">
-                    <option value="">Select Category</option>
+                    <option value="" disabled>Select Category</option>
+                    <?php displayCategoriesInProductsAdmin(); ?>
                 </select>
             </div>
 
@@ -57,14 +59,14 @@
             <div class="form-group">
                 <label for="product-title">Product Quantity</label>
                 <input type="number" name="product_quantity" class="form-control" min="0">
-                <h6 class="text-danger"><?php displayMessage(); ?></h6>
+                <h6 class="text-danger"><?php //message ?></h6>
             </div>
 
             <div class="form-group ">
 
                 <label for="product-price">Product Price</label>
-                <input type="number" name="product_price" class="form-control" size="60">
-                <h6 class="text-danger"><?php displayMessage(); ?></h6>
+                <input type="number" name="product_price" class="form-control" size="60" step="any">
+                <h6 class="text-danger"><?php //message ?></h6>
 
             </div>
 

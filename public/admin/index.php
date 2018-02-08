@@ -27,82 +27,90 @@ if (!isset($_SESSION['username']) || $_SESSION['user_role'] !== 'admin') {
         }
 
 
-            if (isset($_GET['orders'])) {
+        if (isset($_GET['orders'])) {
 
 
-        include(TEMPLATE_BACK . "/orders.php");
+            include(TEMPLATE_BACK . "/orders.php");
 
 
-           }
+        }
 
-           if (isset($_GET['categories'])) {
-
-
-        include(TEMPLATE_BACK . "/categories.php");
+        if (isset($_GET['categories'])) {
 
 
-           }
-
-            if (isset($_GET['products'])) {
+            include(TEMPLATE_BACK . "/categories.php");
 
 
-        include(TEMPLATE_BACK . "/products.php");
+        }
+
+        if (isset($_GET['products'])) {
 
 
-            }
+            include(TEMPLATE_BACK . "/products.php");
 
 
-            if (isset($_GET['add_product'])) {
+        }
 
 
-        include(TEMPLATE_BACK . "/add_product.php");
+        if (isset($_GET['add_product'])) {
 
 
-            }
+            include(TEMPLATE_BACK . "/add_product.php");
 
 
-            if (isset($_GET['edit_product'])) {
+        }
 
 
-        include(TEMPLATE_BACK . "/edit_product.php");
+        if (isset($_GET['edit_product'])) {
 
 
-            }
-
-            if (isset($_GET['users'])) {
+            include(TEMPLATE_BACK . "/edit_product.php");
 
 
-        include(TEMPLATE_BACK . "/users.php");
+        }
+
+        if (isset($_GET['edit_category'])) {
 
 
-            }
+            include(TEMPLATE_BACK . "/edit_category.php");
 
 
-         if (isset($_GET['add_user'])) {
+        }
+
+        if (isset($_GET['users'])) {
 
 
-        include(TEMPLATE_BACK . "/add_user.php");
+            include(TEMPLATE_BACK . "/users.php");
 
 
-           }
+        }
 
 
-         if (isset($_GET['edit_user'])) {
+        if (isset($_GET['add_user'])) {
 
 
-        include(TEMPLATE_BACK . "/edit_user.php");
+            include(TEMPLATE_BACK . "/add_user.php");
 
 
-            }
+        }
 
 
-            if (isset($_GET['reports'])) {
+        if (isset($_GET['edit_user'])) {
 
 
-        include(TEMPLATE_BACK . "/reports.php");
+            include(TEMPLATE_BACK . "/edit_user.php");
 
 
-            }
+        }
+
+
+        if (isset($_GET['reports'])) {
+
+
+            include(TEMPLATE_BACK . "/reports.php");
+
+
+        }
 
 
         ?>

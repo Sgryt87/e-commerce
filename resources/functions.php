@@ -226,42 +226,6 @@ function deleteOrdersAdmin()
     }
 }
 
-function displayProductsAdmin()
-{
-    $query = query("SELECT * FROM products");
-    confirmQuery($query);
-    while ($row = fetchQuery($query)) {
-        $product_id = $row['product_id'];
-        $product_title = $row['product_title'];
-        $product_category = $row['product_category_id'];
-        $product_price = $row['product_price'];
-        $product_quantity = $row['product_quantity'];
-        $product_image = $row['product_image'];
-
-        $products = <<<PRODUCTS
-
-<tr>
-<td>{$product_id}</td>
-<td>{$product_title}
-<br>
-<a href=""><img src="{$product_image}" alt="{$product_title}" width="150px"></a> 
-</td>
-<td>{$product_category}</td>
-<td>&#36;{$product_price}</td>
-<td>{$product_quantity}</td>
-<td><a href="" class="btn btn-warning">Edit</a></td>
-<td>
-    <form action="" method="post">
-    <input type="hidden" name="id" value="$product_id">
-    <input type="submit" value="Delete" name="delete" class="btn btn-danger btn-sm">
-    </form>
-</td>
-</tr>
-
-PRODUCTS;
-        echo $products;
-    }
-}
 
 function displayReportsAdmin()
 {
@@ -292,6 +256,43 @@ REPORTS;
     }
 }
 
+function displayProductsAdmin()
+{
+    $query = query("SELECT * FROM products");
+    confirmQuery($query);
+    while ($row = fetchQuery($query)) {
+        $product_id = $row['product_id'];
+        $product_title = $row['product_title'];
+        $product_category = $row['product_category_id'];
+        $product_price = $row['product_price'];
+        $product_quantity = $row['product_quantity'];
+        $product_image = $row['product_image'];
+
+        $products = <<<PRODUCTS
+
+<tr>
+<td>{$product_id}</td>
+<td>{$product_title}
+<br>
+<a href="index.php?edit_productp&id={$product_id}"><img src="UPLOAD_IMAGE . DS . {$product_image}" 
+alt="{$product_title}" width="100px"></a> 
+</td>
+<td>{$product_category}</td>
+<td>&#36;{$product_price}</td>
+<td>{$product_quantity}</td>
+<td><a href="index.php?edit_product&id={$product_id}" class="btn btn-primary">Edit</a></td>
+<td>
+    <form action="" method="post">
+    <input type="hidden" name="id" value="$product_id">
+    <input type="submit" value="Delete" name="delete" class="btn btn-danger btn-sm">
+    </form>
+</td>
+</tr>
+
+PRODUCTS;
+        echo $products;
+    }
+}
 
 function deleteProductsAdmin()
 {
@@ -306,13 +307,135 @@ function deleteProductsAdmin()
 
 function addProductAdmin()
 {
-    $numberErr = '';
-    if (isset($_POST[''])) {
-        $product_title = cleanData($_POST['product_title']);
-        $product_description = cleanData($_POST['product_description']);
-        $product_category_id = cleanData($_POST['product_category_id']);
-        $product_quantity = cleanData($_POST['product_quantity']);
-        $product_price = cleanData($_POST['product_price']);
-        $product_image = cleanData($_POST['product_image']);
+    $numberErr = '';  // cannot be negative
+    if (isset($_POST['publish'])) {
+
+        echo $product_title = cleanData($_POST['product_title']);
+        echo $product_description = cleanData($_POST['product_description']);
+        echo $product_category_id = cleanData($_POST['product_category_id']);
+        echo $product_quantity = cleanData($_POST['product_quantity']);
+        echo $product_price = cleanData($_POST['product_price']);
+
+        echo $product_image = cleanData($_FILES['file']['name']);
+        echo $product_image_temp = cleanData($_FILES['file']['tmp_name']);
+
+        move_uploaded_file($product_image_temp, UPLOAD_IMAGES . DS . $product_image);
+
+
+        $query = query("INSERT INTO products (product_title,
+                                                  product_description,
+                                                  product_category_id,
+                                                  product_quantity,
+                                                  product_price,
+                                                  product_image) 
+                                                    VALUES  ('$product_title',
+                                                             '$product_description', 
+                                                             '$product_category_id',
+                                                             '$product_quantity',
+                                                             '$product_price',
+                                                             '$product_image')");
+        echo $last_id = lastId();
+        confirmQuery($query);
+        setMessage("New Product id#{$last_id} Was Added");
+        redirect('index.php?products');
+    }
+}
+
+function displayCategoriesInProductsAdmin()
+{
+    $query = query("SELECT * FROM categories");
+    confirmQuery($query);
+    while ($row = fetchQuery($query)) {
+        $cat_id = $row['cat_id'];
+        $cat_title = $row['cat_title'];
+        $categories = <<<DELIMITER
+        
+         <option value="$cat_id">$cat_title</option>
+DELIMITER;
+
+        echo $categories;
+    }
+}
+
+function displayCategoriesAdmin()
+{
+    $query = query("SELECT * FROM categories");
+    confirmQuery($query);
+    while ($row = fetchQuery($query)) {
+        $cat_id = $row['cat_id'];
+        $cat_title = $row['cat_title'];
+        $categories = <<<DELIMITER
+     
+        <tr>
+        <td>{$cat_id}</td>
+        <td>{$cat_title}</td>
+        <td> <a href="index.php?edit_category&id={$cat_id}" class="btn btn-primary">Edit</a></td>
+        <td>
+        <form action="" method="post">
+            <input type="hidden" name="id" value="$cat_id">
+            <input type="submit" value="Delete" name="delete" class="btn btn-danger btn-sm">
+        </form>
+        </td>
+        </tr>
+DELIMITER;
+
+        echo $categories;
+    }
+}
+
+function addCategoryAdmin()
+{
+    if (isset($_POST['add_category'])) {
+        $cat_title = cleanData($_POST['cat_title']);
+        $query = query("INSERT INTO categories (cat_title) VALUES('$cat_title')");
+        confirmQuery($query);
+        setMessage('Category Was Added');
+        redirect('index.php?categories');
+    }
+}
+
+function displayCategoryToEditAdmin()
+{
+    if (isset($_GET['id'])) {
+        $cat_id = cleanData($_GET['id']);
+        $query = query("SELECT * FROM categories WHERE cat_id = $cat_id");
+        confirmQuery($query);
+        while ($row = fetchQuery($query)) {
+            $cat_id = $row['cat_id'];
+            $cat_title = $row['cat_title'];
+
+            $category = <<<CATEGORY
+            <label for="category-cat_title">Rename</label>
+            <input name="cat_title" type="text" class="form-control" value="$cat_title">
+            <input type="hidden" name="cat_id" value="$cat_id">
+      
+CATEGORY;
+            echo $category;
+        }
+    } else {
+        redirect('index.php?categories');
+    }
+}
+
+function editCategoryAdmin()
+{
+    if (isset($_POST['edit_category'])) {
+        $cat_id = cleanData($_POST['cat_id']);
+        $cat_title = cleanData($_POST['cat_title']);
+        $query = query("UPDATE categories SET cat_title = '$cat_title' WHERE cat_id = $cat_id");
+        confirmQuery($query);
+        setMessage('Category Was Updated');
+        redirect('index.php?categories');
+    }
+}
+
+function deleteCategory()
+{
+    if (isset($_POST['delete'])) {
+        $cat_id = cleanData($_POST['cat_id']);
+        $query = query("DELETE FROM categories WHERE cat_id = $cat_id");
+        confirmQuery($query);
+        setMessage('Category Was Deleted');
+        redirect('index.php?categories');
     }
 }

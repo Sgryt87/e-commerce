@@ -135,8 +135,8 @@ function reports()
         foreach ($_SESSION as $name => $value) {
             if ($value > 0) {
                 if (substr($name, 0, 8) === 'product_') {
-                    $get_name = cleanData($name);
-                    $get_value = cleanData($value);
+                    $name = cleanData($name);
+                    $value = cleanData($value);
                     $length = strlen($name) - 8;
                     $id = substr($name, 8, $length);
                     $show_query = query("SELECT * FROM products WHERE product_id = $id");
@@ -150,7 +150,6 @@ function reports()
 
                         $id = cleanData($id);
                         $subtotal = cleanData($subtotal);
-                        $value = cleanData($value);
 
                         //inserting transaction information
                         $get_query = query("INSERT INTO orders(
@@ -180,7 +179,6 @@ function reports()
                                             $subtotal,
                                             $value)");
                         confirmQuery($insert_query);
-
                     }
                     //product in the cart
                     $total += $subtotal;
