@@ -6,7 +6,6 @@
 <h3 class="bg-success"><?php displayMessage(); ?></h3>
 <table class="table table-hover">
 
-
     <thead>
 
     <tr>

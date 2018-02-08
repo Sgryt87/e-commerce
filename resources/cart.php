@@ -70,7 +70,10 @@ function cart()
                     $products = <<<PRODUCTS
                     
                   <tr>
-                    <td>{$product_title}</td>
+                    <td>{$product_title}<br>
+                    <img class="img-responsive" src="../resources/uploads/$product_image" width="100px" 
+                    alt="$product_title">
+                    </td>
                     <td>{$product_price}</td>
                     <td>{$product_quantity}</td>
                     <td>{$value}</td>

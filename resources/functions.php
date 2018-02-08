@@ -55,11 +55,11 @@ function getProducts()
 
         <div class="col-sm-4 col-lg-4 col-md-4">
             <div class="thumbnail">
-                <a href="item.php?id={$product_id}"><img src="{$product_image}" alt=""></a>
+                <a href="item.php?id={$product_id}"><img src="../resources/uploads/{$product_image}" alt=""></a>
                 <div class="caption">
                     <h4 class="pull-right">&#36;{$product_price}</h4>
                     <h4><a href="item.php?id={$product_id}">{$product_title}</a></h4>
-                    <p>{$product_description}<a href="" target="_blank"></a></p>
+                    <p>{$product_description}<a href="item.php?id={$product_id}" target="_blank"></a></p>
                     <a href="../resources/cart.php?add={$product_id}" class="btn btn-primary" target="_blank">Add To Cart</a>
                 </div>
             </div>
@@ -90,26 +90,26 @@ DELIMITER;
 
 function getProductsInCategoryPage()
 {
-    if (isset($_GET['id'])) {
-        $get_category_id = cleanData($_GET['id']);
-        $query = query("SELECT * FROM products WHERE product_category_id = {$get_category_id}");
-        confirmQuery($query);
-        while ($row = fetchQuery($query)):
-            $product_id = $row['product_id'];
-            $product_title = $row['product_title'];
-            $product_price = $row['product_price'];
-            $product_category_id = $row['product_category_id'];
-            $product_description = $row['product_description'];
-            $product_image = $row['product_image'];
-            $products = <<<DELIMETER
+
+    $query = query("SELECT * FROM products");
+    confirmQuery($query);
+    while ($row = fetchQuery($query)):
+        $product_id = $row['product_id'];
+        $product_title = $row['product_title'];
+        $product_price = $row['product_price'];
+        $product_category_id = $row['product_category_id'];
+        $product_description = $row['product_description'];
+        $product_image = $row['product_image'];
+        $products = <<<DELIMETER
 
         <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="{$product_image}" alt="">
+                    <a href="item.php?id={$product_id}"><img src="../resources/uploads/{$product_image}" alt="$product_title"></a>
                     <div class="caption">
                         <h3>{$product_title}</h3>
                         <p>{$product_description}</p>
-                        <p><a href="#" class="btn btn-primary">Buy Now!</a> <a href="item.php?id={$product_id}" 
+                        <p><a href="../resources/cart.php?add={$product_id}" class="btn btn-primary">Buy Now!</a> <a 
+                        href="item.php?id={$product_id}" 
                         class="btn 
                         btn-default">More 
                         Info</a></p>
@@ -117,11 +117,8 @@ function getProductsInCategoryPage()
                 </div>
             </div>
 DELIMETER;
-            echo $products;
-        endwhile;
-    } else {
-        redirect('index.php');
-    }
+        echo $products;
+    endwhile;
 }
 
 function getProductsInShopPage()
@@ -139,11 +136,12 @@ function getProductsInShopPage()
 
         <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="{$product_image}" alt="">
+                    <img src="../resources/uploads/{$product_image}" alt="">
                     <div class="caption">
                         <h3>{$product_title}</h3>
                         <p>{$product_description}</p>
-                        <p><a href="#" class="btn btn-primary">Buy Now!</a> <a href="item.php?id={$product_id}" 
+                        <p><a href="../resources/cart.php?add={$product_id}" class="btn btn-primary">Buy Now!</a> <a 
+                        href="item.php?id={$product_id}" 
                         class="btn btn-default">More Info</a></p>
                     </div>
                 </div>
@@ -242,17 +240,35 @@ function displayReportsAdmin()
         $reports = <<<REPORTS
 
            <tr> 
-           <th>$report_id</th>
-           <th>$product_id</th>
-           <th>$order_id</th>
-           <th>$product_price</th>
-           <th>$product_title</th>
-           <th>$product_quantity</th>
+           <td>$report_id</td>
+           <td>$product_id</td>
+           <td>$order_id</td>
+           <td>$product_price</td>
+           <td>$product_title</td>
+           <td>$product_quantity</td>
+           <td> 
+            <form action="" method="post">
+            <input type="hidden" name="id" value="$report_id">
+            <input type="submit" value="X" name="delete" class="btn btn-danger btn-sm">
+            </form>
+           </td>
            </tr>
 
 REPORTS;
         echo $reports;
 
+    }
+}
+
+function deleteReportsAdmin()
+{
+    if (isset($_POST['delete'])) {
+        $post_report_id = cleanData($_POST['id']);
+        $delete_query = query("DELETE FROM reports WHERE report_id = $post_report_id");
+        confirmQuery($delete_query);
+
+        setMessage('Report Was Deleted');
+        redirect('index.php?reports');
     }
 }
 
@@ -263,10 +279,13 @@ function displayProductsAdmin()
     while ($row = fetchQuery($query)) {
         $product_id = $row['product_id'];
         $product_title = $row['product_title'];
-        $product_category = $row['product_category_id'];
+        $product_category_id = $row['product_category_id'];
         $product_price = $row['product_price'];
         $product_quantity = $row['product_quantity'];
         $product_image = $row['product_image'];
+
+        $product_category = displayProductCategoryAdmin($product_category_id);
+
 
         $products = <<<PRODUCTS
 
@@ -274,8 +293,8 @@ function displayProductsAdmin()
 <td>{$product_id}</td>
 <td>{$product_title}
 <br>
-<a href="index.php?edit_productp&id={$product_id}"><img src="UPLOAD_IMAGE . DS . {$product_image}" 
-alt="{$product_title}" width="100px"></a> 
+<a href="index.php?edit_product&id={$product_id}"><img src="../../resources/uploads/{$product_image}" 
+alt="{$product_title}" width="250px"></a> 
 </td>
 <td>{$product_category}</td>
 <td>&#36;{$product_price}</td>
@@ -294,12 +313,69 @@ PRODUCTS;
     }
 }
 
+function displayProductCategoryAdmin($id)
+{
+    $query = query("SELECT cat_title FROM categories WHERE cat_id = $id");
+    confirmQuery($query);
+    while ($row = fetchQuery($query)) {
+        return $row['cat_title'];
+    }
+}
+
+function displayProductToEditAdmin()
+{
+//
+}
+
+function editProductAdmin()
+{
+    if (isset($_POST['publish'])) {
+        $product_id = cleanData($_POST['product_id']);
+        $product_title = cleanData($_POST['product_title']);
+        $product_description = cleanData($_POST['product_description']);
+        $product_category_id = cleanData($_POST['product_category_id']);
+        $product_quantity = cleanData($_POST['product_quantity']);
+        $product_price = cleanData($_POST['product_price']);
+
+        $product_image = cleanData($_FILES['file']['name']);
+        $product_image_temp = cleanData($_FILES['file']['tmp_name']);
+
+        if (empty($product_image)) {
+            $get_image = query("SELECT product_image FROM products WHERE product_id = $product_id");
+            confirmQuery($get_image);
+            while ($row = fetchQuery($get_image)) {
+                $product_image = $row['product_image'];
+            }
+
+        } else {
+
+            unlink(UPLOAD_IMAGES . DS . $product_image);
+        }
+        move_uploaded_file($product_image_temp, UPLOAD_IMAGES . DS . $product_image);
+
+
+        $query = query("UPDATE products SET product_title = '$product_title',
+                                                 product_description = '$product_description',
+                                                 product_category_id = '$product_category_id',
+                                                 product_quantity ='$product_quantity',
+                                                 product_price =  '$product_price',
+                                                 product_image ='$product_image'
+                                                 WHERE product_id = $product_id");
+
+
+        confirmQuery($query);
+        setMessage("Product Was Updated");
+        redirect('index.php?products');
+    }
+}
+
 function deleteProductsAdmin()
 {
     if (isset($_POST['delete'])) {
         $post_product_id = cleanData($_POST['id']);
         $delete_query = query("DELETE FROM products WHERE product_id = $post_product_id");
         confirmQuery($delete_query);
+
         setMessage('Product deleted');
         redirect('index.php?products');
     }
@@ -310,14 +386,14 @@ function addProductAdmin()
     $numberErr = '';  // cannot be negative
     if (isset($_POST['publish'])) {
 
-        echo $product_title = cleanData($_POST['product_title']);
-        echo $product_description = cleanData($_POST['product_description']);
-        echo $product_category_id = cleanData($_POST['product_category_id']);
-        echo $product_quantity = cleanData($_POST['product_quantity']);
-        echo $product_price = cleanData($_POST['product_price']);
+        $product_title = cleanData($_POST['product_title']);
+        $product_description = cleanData($_POST['product_description']);
+        $product_category_id = cleanData($_POST['product_category_id']);
+        $product_quantity = cleanData($_POST['product_quantity']);
+        $product_price = cleanData($_POST['product_price']);
 
-        echo $product_image = cleanData($_FILES['file']['name']);
-        echo $product_image_temp = cleanData($_FILES['file']['tmp_name']);
+        $product_image = cleanData($_FILES['file']['name']);
+        $product_image_temp = cleanData($_FILES['file']['tmp_name']);
 
         move_uploaded_file($product_image_temp, UPLOAD_IMAGES . DS . $product_image);
 
@@ -334,7 +410,7 @@ function addProductAdmin()
                                                              '$product_quantity',
                                                              '$product_price',
                                                              '$product_image')");
-        echo $last_id = lastId();
+        $last_id = lastId();
         confirmQuery($query);
         setMessage("New Product id#{$last_id} Was Added");
         redirect('index.php?products');

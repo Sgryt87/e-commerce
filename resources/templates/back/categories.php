@@ -26,7 +26,6 @@
 
 </div>
 
-
 <div class="col-md-8">
 
     <table class="table">
@@ -45,7 +44,6 @@
         addCategoryAdmin();
         deleteCategory();
         displayCategoriesAdmin();
-
         ?>
         </tbody>
 

@@ -3,7 +3,7 @@
 
 </h1>
 
-<h3 class="bg-success"></h3>
+<h3 class="bg-success"><?php displayMessage(); ?></h3>
 <table class="table table-hover">
 
 
@@ -19,7 +19,10 @@
     </tr>
     </thead>
     <tbody>
-    <?php displayReportsAdmin(); ?>
+    <?php
+    displayReportsAdmin();
+    deleteReportsAdmin();
+    ?>
     </tbody>
 </table>
 

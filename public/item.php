@@ -30,7 +30,8 @@
                         <div class="col-md-7">
 
 
-                            <img class="img-responsive" src="<?php echo $product_image; ?>" alt="">
+                            <img class="img-responsive" src="../resources/uploads/<?php echo $product_image; ?>"
+                                 alt="<?php echo $product_title ?>">
 
 
                         </div>
@@ -41,7 +42,7 @@
 
 
                                 <div class="caption-full">
-                                    <h4><a href="#"><?php echo $product_title ?></a></h4>
+                                    <h4><?php echo $product_title ?></h4>
                                     <hr>
                                     <h4 class="">&#36;<?php echo $product_price; ?></h4>
 
